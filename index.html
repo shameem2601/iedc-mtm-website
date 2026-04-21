@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IEDC - Innovation Community</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              coral: '#ff6b35',
+              dark: '#050505',
+              muted: '#6b7280'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'slide-up': 'slideUp 1.2s cubic-bezier(0.165, 0.84, 0.44, 1) both',
+          },
+          keyframes: {
+            slideUp: {
+              '0%': { transform: 'translateY(120%)', opacity: '0' },
+              '20%': { opacity: '1' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #050505;
+      color: #fff;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #050505;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ff6b35;
+    }
+
+    /* HYPER-SPEED LOADER CSS (Adapted for Dark Theme) */
+    .loader-container {
+      position: relative;
+      width: 200px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+    }
+
+    .loader {
+      position: absolute;
+      top: 50%;
+      margin-left: -50px;
+      left: 50%;
+      animation: speeder 0.4s linear infinite;
+    }
+
+    .loader>span {
+      height: 5px;
+      width: 35px;
+      background: #fff;
+      position: absolute;
+      top: -19px;
+      left: 60px;
+      border-radius: 2px 10px 1px 0;
+    }
+
+    .base span {
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-top: 6px solid transparent;
+      border-right: 100px solid #fff;
+      border-bottom: 6px solid transparent;
+    }
+
+    .base span:before {
+      content: "";
+      height: 22px;
+      width: 22px;
+      border-radius: 50%;
+      background: #fff;
+      position: absolute;
+      right: -110px;
+      top: -16px;
+    }
+
+    .base span:after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-top: 0 solid transparent;
+      border-right: 55px solid #fff;
+      border-bottom: 16px solid transparent;
+      top: -16px;
+      right: -98px;
+    }
+
+    .face {
+      position: absolute;
+      height: 12px;
+      width: 20px;
+      background: #ff6b35;
+      border-radius: 20px 20px 0 0;
+      transform: rotate(-40deg);
+      right: -125px;
+      top: -15px;
+    }
+
+    .face:after {
+      content: "";
+      height: 12px;
+      width: 12px;
+      background: #ff6b35;
+      right: 4px;
+      top: 7px;
+      position: absolute;
+      transform: rotate(40deg);
+      transform-origin: 50% 50%;
+      border-radius: 0 0 0 2px;
+    }
+
+    .loader>span>span:nth-child(1),
+    .loader>span>span:nth-child(2),
+    .loader>span>span:nth-child(3),
+    .loader>span>span:nth-child(4) {
+      width: 30px;
+      height: 1px;
+      background: #fff;
+      position: absolute;
+      animation: fazer1 0.2s linear infinite;
+    }
+
+    .loader>span>span:nth-child(2) {
+      top: 3px;
+      animation: fazer2 0.4s linear infinite;
+    }
+
+    .loader>span>span:nth-child(3) {
+      top: 1px;
+      animation: fazer3 0.4s linear infinite;
+      animation-delay: -1s;
+    }
+
+    .loader>span>span:nth-child(4) {
+      top: 4px;
+      animation: fazer4 1s linear infinite;
+      animation-delay: -1s;
+    }
+
+    @keyframes fazer1 {
+      0% {
+        left: 0;
+      }
+
+      100% {
+        left: -80px;
+        opacity: 0;
+      }
+    }
+
+    @keyframes fazer2 {
+      0% {
+        left: 0;
+      }
+
+      100% {
+        left: -100px;
+        opacity: 0;
+      }
+    }
+
+    @keyframes fazer3 {
+      0% {
+        left: 0;
+      }
+
+      100% {
+        left: -50px;
+        opacity: 0;
+      }
+    }
+
+    @keyframes fazer4 {
+      0% {
+        left: 0;
+      }
+
+      100% {
+        left: -150px;
+        opacity: 0;
+      }
+    }
+
+    @keyframes speeder {
+      0% {
+        transform: translate(2px, 1px) rotate(0deg);
+      }
+
+      10% {
+        transform: translate(-1px, -3px) rotate(-1deg);
+      }
+
+      20% {
+        transform: translate(-2px, 0px) rotate(1deg);
+      }
+
+      30% {
+        transform: translate(1px, 2px) rotate(0deg);
+      }
+
+      40% {
+        transform: translate(1px, -1px) rotate(1deg);
+      }
+
+      50% {
+        transform: translate(-1px, 3px) rotate(-1deg);
+      }
+
+      60% {
+        transform: translate(-1px, 1px) rotate(0deg);
+      }
+
+      70% {
+        transform: translate(3px, 1px) rotate(-1deg);
+      }
+
+      80% {
+        transform: translate(-2px, -1px) rotate(1deg);
+      }
+
+      90% {
+        transform: translate(2px, 1px) rotate(0deg);
+      }
+
+      100% {
+        transform: translate(1px, -2px) rotate(-1deg);
+      }
+    }
+
+    .longfazers {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .longfazers span {
+      position: absolute;
+      height: 1px;
+      width: 20%;
+      background: #fff;
+      opacity: 0.1;
+    }
+
+    .longfazers span:nth-child(1) {
+      top: 20%;
+      animation: lf 0.6s linear infinite;
+      animation-delay: -5s;
+    }
+
+    .longfazers span:nth-child(2) {
+      top: 40%;
+      animation: lf2 0.8s linear infinite;
+      animation-delay: -1s;
+    }
+
+    .longfazers span:nth-child(3) {
+      top: 60%;
+      animation: lf3 0.6s linear infinite;
+    }
+
+    .longfazers span:nth-child(4) {
+      top: 80%;
+      animation: lf4 0.5s linear infinite;
+      animation-delay: -3s;
+    }
+
+    @keyframes lf {
+      0% {
+        left: 200%;
+      }
+
+      100% {
+        left: -200%;
+        opacity: 0;
+      }
+    }
+
+    @keyframes lf2 {
+      0% {
+        left: 200%;
+      }
+
+      100% {
+        left: -200%;
+        opacity: 0;
+      }
+    }
+
+    @keyframes lf3 {
+      0% {
+        left: 200%;
+      }
+
+      100% {
+        left: -100%;
+        opacity: 0;
+      }
+    }
+
+    @keyframes lf4 {
+      0% {
+        left: 200%;
+      }
+
+      100% {
+        left: -100%;
+        opacity: 0;
+      }
+    }
+
+    .scanline {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 50%, rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0.02));
+      background-size: 100% 4px;
+      pointer-events: none;
+    }
+
+    /* Event Expand Transition */
+    .event-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .event-details {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-out, opacity 0.4s ease-out;
+      opacity: 0;
+    }
+
+    .event-card.expanded .event-details {
+      max-height: 500px;
+      opacity: 1;
+      margin-top: 1rem;
+    }
+
+    /* Liquid Glass Nav Active State */
+    .nav-btn.active {
+      color: #ff6b35;
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+
+<body class="bg-brand-dark text-white font-sans antialiased text-sm md:text-base">
+
+  <!-- Interactive Canvas Background -->
+  <canvas id="squares-bg" class="fixed inset-0 w-full h-full z-0 opacity-40"></canvas>
+  <div class="fixed inset-0 scanline z-0"></div>
+  <div class="fixed inset-0 bg-gradient-radial from-transparent to-brand-dark/95 z-0 pointer-events-none"></div>
+
+  <!-- Layers 2: Speed Lines (Only shown on welcome potentially, but cool everywhere) -->
+  <div class="longfazers fixed inset-0 pointer-events-none z-10 w-full h-full opacity-30">
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+  <!-- GLOBAL HEADER & STAGGERED MENU TOGGLE -->
+  <header class="fixed top-0 left-0 w-full flex items-center justify-between p-6 md:p-8 z-[110] pointer-events-none">
+    <div class="pointer-events-auto flex items-center gap-4 bg-black/40 backdrop-blur-xl border border-white/10 px-4 py-2 rounded-2xl shadow-xl">
+       <img src="./iedc-logo.png" alt="IEDC Logo" class="h-8 object-contain" />
+       <div class="hidden md:flex flex-col border-l border-white/20 pl-4 py-0">
+          <span class="text-[10px] uppercase tracking-[0.2em] text-brand-muted font-bold">System Status</span>
+          <span class="text-xs font-semibold tracking-wide flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand-coral animate-pulse"></span>ONLINE</span>
+       </div>
+    </div>
+    
+    <button id="sm-toggle-btn" class="pointer-events-auto flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 transition-colors shadow-2xl focus:outline-none" aria-expanded="false">
+      <div class="relative h-[1.2em] overflow-hidden min-w-[50px] text-left">
+        <div id="sm-text-inner" class="flex flex-col font-black uppercase tracking-widest text-xs">
+           <span class="h-[1.2em] leading-tight flex items-center">MENU</span>
+           <span class="h-[1.2em] leading-tight flex items-center opacity-50">...</span>
+           <span class="h-[1.2em] leading-tight flex items-center text-brand-coral">CLOSE</span>
+        </div>
+      </div>
+      <div id="sm-icon" class="relative w-4 h-4">
+        <span id="sm-plus-h" class="absolute top-1/2 left-0 w-full h-0.5 bg-white rounded-full -translate-y-1/2"></span>
+        <span id="sm-plus-v" class="absolute top-0 left-1/2 w-0.5 h-full bg-white rounded-full -translate-x-1/2"></span>
+      </div>
+    </button>
+  </header>
+
+  <!-- STAGGERED MENU OVERLAY (LIQUID GLASS) -->
+  <div id="staggered-menu-scope" class="fixed inset-0 z-[100] overflow-hidden pointer-events-none" style="display:none;">
+      <!-- Liquid Glass Pre-layers -->
+      <div id="sm-prelayers-container" class="absolute top-0 bottom-0 right-0 z-[5] w-[100vw] sm:w-[50vw] md:w-[40vw] lg:w-[30vw]">
+         <div class="sm-prelayer absolute inset-0 bg-white/5 backdrop-blur-md border-l border-white/5"></div>
+         <div class="sm-prelayer absolute inset-0 bg-black/80 backdrop-blur-xl border-l border-white/10"></div>
+      </div>
+      
+      <!-- Main Panel -->
+      <aside id="sm-main-panel" class="absolute top-0 bottom-0 right-0 z-10 pointer-events-auto flex flex-col pt-32 pb-12 px-8 sm:px-12 w-[100vw] sm:w-[50vw] md:w-[40vw] lg:w-[30vw] bg-black/60 backdrop-blur-3xl border-l border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+         <div class="flex-1 flex flex-col">
+            <nav>
+               <ul class="flex flex-col gap-6 list-none p-0 m-0">
+                  <li class="overflow-hidden">
+                     <a href="#" onclick="clickSmItem('welcome')" class="group relative flex items-baseline gap-4 no-underline">
+                        <span class="text-sm font-medium text-white/30 -translate-y-2">01</span>
+                        <span class="sm-panel-itemLabel inline-block font-black text-5xl md:text-6xl text-white uppercase tracking-tighter transition-colors hover:text-brand-coral">Welcome</span>
+                     </a>
+                  </li>
+                  <li class="overflow-hidden">
+                     <a href="#" onclick="clickSmItem('members')" class="group relative flex items-baseline gap-4 no-underline">
+                        <span class="text-sm font-medium text-white/30 -translate-y-2">02</span>
+                        <span class="sm-panel-itemLabel inline-block font-black text-5xl md:text-6xl text-white uppercase tracking-tighter transition-colors hover:text-brand-coral">Members</span>
+                     </a>
+                  </li>
+                  <li class="overflow-hidden">
+                     <a href="#" onclick="clickSmItem('events')" class="group relative flex items-baseline gap-4 no-underline">
+                        <span class="text-sm font-medium text-white/30 -translate-y-2">03</span>
+                        <span class="sm-panel-itemLabel inline-block font-black text-5xl md:text-6xl text-white uppercase tracking-tighter transition-colors hover:text-brand-coral">Events</span>
+                     </a>
+                  </li>
+                  <li class="overflow-hidden">
+                     <a href="#" onclick="clickSmItem('about')" class="group relative flex items-baseline gap-4 no-underline">
+                        <span class="text-sm font-medium text-white/30 -translate-y-2">04</span>
+                        <span class="sm-panel-itemLabel inline-block font-black text-5xl md:text-6xl text-white uppercase tracking-tighter transition-colors hover:text-brand-coral">About</span>
+                     </a>
+                  </li>
+               </ul>
+            </nav>
+            <div class="mt-auto pt-12 border-t border-white/10">
+               <h3 class="sm-socials-title text-xs font-bold uppercase tracking-widest mb-6 text-white/30">Connect</h3>
+               <ul class="flex flex-wrap gap-x-8 gap-y-2 list-none p-0 m-0">
+                  <li><a href="#" class="sm-socials-link text-sm font-bold text-white hover:text-brand-coral transition-colors py-1 inline-block uppercase tracking-wider">Instagram</a></li>
+                  <li><a href="#" class="sm-socials-link text-sm font-bold text-white hover:text-brand-coral transition-colors py-1 inline-block uppercase tracking-wider">LinkedIn</a></li>
+                  <li><a href="#" class="sm-socials-link text-sm font-bold text-white hover:text-brand-coral transition-colors py-1 inline-block uppercase tracking-wider">Twitter</a></li>
+               </ul>
+            </div>
+         </div>
+      </aside>
+  </div>
+
+  <!-- Main Content Wrapper -->
+  <div id="content-wrapper" class="relative z-20 flex flex-col w-full max-w-7xl mx-auto pb-32 md:pb-0 pt-20">
+
+    <!-- ==================== 1. WELCOME SECTION ==================== -->
+    <section id="welcome"
+      class="site-section w-full min-h-screen flex flex-col px-6 md:px-12 py-8 transition-opacity duration-300">
+
+      <main class="flex-1 flex flex-col items-center justify-center w-full mt-20 md:mt-0">
+        <div class="loader-container mb-12">
+          <div class="loader">
+            <span><span></span><span></span><span></span><span></span></span>
+            <div class="base"><span></span>
+              <div class="face"></div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center max-w-3xl mx-auto relative px-4">
+          <div class="absolute -top-6 -left-6 w-6 h-6 border-t-2 border-l-2 border-brand-coral/60"></div>
+          <div class="absolute -bottom-6 -right-6 w-6 h-6 border-b-2 border-r-2 border-brand-coral/60"></div>
+
+          <h1 class="text-5xl md:text-7xl leading-tight font-bold tracking-tighter mb-6 text-white drop-shadow-lg">
+            Empowering <br class="md:hidden" />Innovation.<br />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-coral to-yellow-500">
+              Building Entrepreneurs.
+            </span>
+          </h1>
+
+          <p class="text-lg md:text-2xl text-white/70 font-light mb-10 max-w-xl mx-auto">
+            Join our innovation community for the resources and mentorship to accelerate your technological growth.
+          </p>
+
+          <button
+            class="md:hidden px-8 py-3 bg-brand-coral text-white font-bold rounded-full shadow-[0_0_20px_rgba(255,107,53,0.4)] hover:shadow-[0_0_30px_rgba(255,107,53,0.6)] transition-all"
+            onclick="navigate('members')">
+            Enter Dashboard
+          </button>
+        </div>
+      </main>
+
+      <!-- Added an arrow down for Desktop users -->
+      <div class="hidden md:flex w-full justify-center pb-8 animate-bounce">
+        <iconify-icon icon="lucide:chevron-down" class="text-4xl text-white/30"></iconify-icon>
+      </div>
+    </section>
+
+    <!-- ==================== 2. MEMBERS SECTION ==================== -->
+    <section id="members"
+      class="site-section w-full min-h-screen flex flex-col px-6 md:px-12 py-16 md:py-24 transition-opacity duration-300">
+      <div class="max-w-5xl mx-auto w-full">
+        <div class="text-center mb-16 relative">
+          <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">Core Directory</h2>
+          <div class="w-12 h-1 bg-brand-coral mx-auto rounded-full"></div>
+        </div>
+
+        <div id="members-grid" class="flex flex-col gap-12 w-full">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 3. EVENTS SECTION ==================== -->
+    <section id="events"
+      class="site-section w-full min-h-screen flex flex-col px-6 md:px-12 py-16 md:py-24 transition-opacity duration-300">
+      <div class="max-w-5xl mx-auto w-full">
+        <div class="text-center mb-16 relative">
+          <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">Event Archives</h2>
+          <div class="w-12 h-1 bg-brand-coral mx-auto rounded-full"></div>
+        </div>
+
+        <div id="events-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 4. ABOUT SECTION ==================== -->
+    <section id="about"
+      class="site-section w-full min-h-screen flex flex-col justify-center px-6 md:px-12 py-16 transition-opacity duration-300">
+      <div class="flex-1 flex flex-col items-center justify-center w-full">
+        <div class="text-center max-w-3xl mx-auto relative cursor-default">
+          <!-- Decorative corner brackets -->
+          <div class="absolute -top-6 -left-6 w-6 h-6 border-t-2 border-l-2 border-brand-coral/40"></div>
+          <div class="absolute -bottom-6 -right-6 w-6 h-6 border-b-2 border-r-2 border-brand-coral/40"></div>
+
+          <span class="inline-block text-brand-coral font-bold tracking-[0.2em] uppercase text-xs mb-4 animate-slide-up"
+            style="animation-delay: 0.1s;">Who We Are</span>
+
+          <h2 class="text-[40px] md:text-[56px] leading-tight font-bold tracking-tight mb-8">
+            <span class="inline-flex justify-center gap-2 md:gap-3 overflow-hidden py-1 -my-1">
+              <span class="inline-block animate-slide-up" style="animation-delay: 0.2s;">Innovation-Driven</span>
+            </span>
+            <br />
+            <span
+              class="inline-flex justify-center gap-2 md:gap-3 overflow-hidden text-transparent bg-clip-text bg-gradient-to-r from-white to-brand-coral py-1 -my-1">
+              <span class="inline-block animate-slide-up" style="animation-delay: 0.3s;">Culture.</span>
+            </span>
+          </h2>
+
+          <div class="text-lg md:text-xl text-brand-muted font-medium mb-12 max-w-2xl mx-auto space-y-4">
+            <p class="animate-slide-up text-white" style="animation-delay: 0.4s;">
+              The Innovation and Entrepreneurship Development Centre (IEDC) is the flagship initiative of Kerala Startup
+              Mission.
+            </p>
+            <p class="text-base text-white/50 font-normal animate-slide-up" style="animation-delay: 0.5s;">
+              We bridge the gap between academic learning and industry requirements by facilitating real-world exposure,
+              internships, networking, and mentorship.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-4 justify-center animate-slide-up" style="animation-delay: 0.6s;">
+            <div class="bg-white/5 border border-white/10 px-6 py-4 rounded-xl flex items-center gap-3">
+              <span class="text-brand-coral"><iconify-icon icon="lucide:zap"></iconify-icon></span>
+              <span class="text-sm uppercase tracking-wider text-white">Innovation</span>
+            </div>
+            <div class="bg-white/5 border border-white/10 px-6 py-4 rounded-xl flex items-center gap-3">
+              <span class="text-brand-coral"><iconify-icon icon="lucide:book-open"></iconify-icon></span>
+              <span class="text-sm uppercase tracking-wider text-white">Mentorship</span>
+            </div>
+            <div class="bg-white/5 border border-white/10 px-6 py-4 rounded-xl flex items-center gap-3">
+              <span class="text-brand-coral"><iconify-icon icon="lucide:globe"></iconify-icon></span>
+              <span class="text-sm uppercase tracking-wider text-white">Networking</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="flex flex-col sm:flex-row justify-between items-end w-full border-t border-white/5 pt-6 mt-8">
+        <div class="flex flex-col gap-1 mb-4 sm:mb-0">
+          <span class="text-[10px] font-bold text-brand-muted uppercase tracking-[0.2em]">Protocol</span>
+          <span class="text-xs font-semibold font-mono text-white/70">
+            IEDC_CORE_V2.5.0
+          </span>
+        </div>
+
+        <div class="flex gap-8">
+          <div class="flex flex-col items-end gap-1">
+            <span class="text-[10px] font-bold text-brand-muted uppercase tracking-[0.2em]">Region</span>
+            <span class="text-xs font-semibold flex items-center gap-1.5 text-white/70">
+              <iconify-icon icon="lucide:globe" class="text-white/40"></iconify-icon>
+              KERALA-IN
+            </span>
+          </div>
+          <div class="flex flex-col items-end gap-1">
+            <span class="text-[10px] font-bold text-brand-muted uppercase tracking-[0.2em]">Encryption</span>
+            <span class="text-xs font-semibold flex items-center gap-1.5 text-white/70">
+              <iconify-icon icon="lucide:lock" class="text-white/40"></iconify-icon>
+              AES-256
+            </span>
+          </div>
+        </div>
+      </footer>
+    </section>
+
+  </div>
+
+  <!-- Admin Lock Button (Secret!) -->
+  <button id="btn-admin-lock" onclick="openAdmin()"
+    class="fixed top-6 right-6 md:top-auto md:bottom-6 z-50 opacity-10 hover:opacity-100 transition-opacity p-3 text-white bg-black/60 backdrop-blur-md rounded-full border border-white/10 shadow-lg group">
+    <iconify-icon icon="lucide:lock" class="text-xl group-hover:text-brand-coral transition-colors"></iconify-icon>
+  </button>
+
+  <!-- Login Modal -->
+  <div id="login-modal"
+    class="fixed inset-0 z-[200] bg-black/90 backdrop-blur-sm hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+    <div class="bg-[#0a0a0a] border border-white/10 p-8 rounded-2xl w-full max-w-md mx-4 shadow-2xl relative">
+      <button onclick="closeAdmin()" class="absolute top-4 right-4 text-white/40 hover:text-white"><iconify-icon
+          icon="lucide:x" class="text-xl"></iconify-icon></button>
+      <h3 class="text-2xl font-bold mb-6 text-center">System Override</h3>
+      <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-white/50 mb-2">Identifier</label>
+          <input type="text" id="login-user"
+            class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-brand-coral transition-colors"
+            required>
+        </div>
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-white/50 mb-2">Passphrase</label>
+          <input type="password" id="login-pass"
+            class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-brand-coral transition-colors"
+            required>
+        </div>
+        <p id="login-error" class="text-red-500 text-sm hidden">Invalid credentials</p>
+        <button type="submit"
+          class="w-full bg-brand-coral text-white font-bold py-3 rounded-lg mt-4 hover:bg-[#ff5511] transition-colors shadow-[0_0_15px_rgba(255,107,53,0.3)]">Authenticate</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Panel Overlay -->
+  <div id="admin-panel" class="fixed inset-0 z-[150] bg-black/95 backdrop-blur-xl hidden flex-col opacity-0 transition-opacity duration-300 overflow-y-auto">
+    <header class="w-full p-6 border-b border-white/10 flex justify-between items-center sticky top-0 bg-black/50 backdrop-blur-md z-10">
+      <div class="flex items-center gap-4">
+        <iconify-icon icon="lucide:shield-check" class="text-3xl text-brand-coral"></iconify-icon>
+        <h2 class="text-2xl font-bold">Admin Console</h2>
+      </div>
+      <button onclick="closeAdminPanel()" class="px-6 py-2 bg-white/10 hover:bg-white/20 rounded-full font-bold text-sm transition-colors border border-white/10">Log Out</button>
+    </header>
+
+    <!-- VIEWS CONTAINER -->
+    <div class="flex-1 w-full max-w-6xl mx-auto p-4 md:p-12 relative overflow-hidden" id="admin-views-container">
+      
+      <!-- VIEW 1: DATA ENTRY -->
+      <div id="admin-view-entry" class="grid grid-cols-1 md:grid-cols-2 gap-12 transition-all duration-300">
+        <!-- Upload Members -->
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 relative">
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-bold flex items-center gap-2"><iconify-icon icon="lucide:user-plus"></iconify-icon> Data Entry: Member</h3>
+            <button type="button" onclick="openAdminOverview('members')" class="text-white/40 hover:text-brand-coral transition-colors p-2 rounded-full hover:bg-white/5" title="View/Edit Added Members"><iconify-icon icon="lucide:eye" class="text-xl"></iconify-icon></button>
+          </div>
+          <form id="form-member" onsubmit="handleAddMemberSubmit(event)" class="space-y-4">
+            <input type="text" id="m-name" placeholder="Full Name" required class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-brand-coral">
+            <input type="text" id="m-role" placeholder="Role (e.g. Nodal Officer)" required class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-brand-coral">
+            <select id="m-level" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-brand-coral appearance-none">
+              <option value="1">Level 1 (Highest)</option>
+              <option value="2">Level 2</option>
+              <option value="3">Level 3</option>
+            </select>
+            <input type="file" id="m-img-file" accept="image/*" required class="block w-full text-sm text-white/50 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-coral file:text-white hover:file:bg-[#ff5511] cursor-pointer">
+            <!-- Hidden inputs to hold base64 data after cropping -->
+            <input type="hidden" id="m-img-base64">
+            <button type="submit" class="w-full bg-white text-black font-bold py-3 rounded-lg hover:bg-white/90 mt-4">Add Member</button>
+          </form>
+        </div>
+
+        <!-- Upload Events -->
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 relative">
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-bold flex items-center gap-2"><iconify-icon icon="lucide:calendar-plus"></iconify-icon> Data Entry: Event</h3>
+            <button type="button" onclick="openAdminOverview('events')" class="text-white/40 hover:text-brand-coral transition-colors p-2 rounded-full hover:bg-white/5" title="View/Edit Added Events"><iconify-icon icon="lucide:eye" class="text-xl"></iconify-icon></button>
+          </div>
+          <form id="form-event" onsubmit="handleAddEventSubmit(event)" class="space-y-4">
+            <input type="text" id="e-title" placeholder="Event Title" required class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-brand-coral">
+            <textarea id="e-desc" placeholder="Event Description..." rows="4" required class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-brand-coral"></textarea>
+            <input type="file" id="e-img-file" accept="image/*" required class="block w-full text-sm text-white/50 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-coral file:text-white hover:file:bg-[#ff5511] cursor-pointer">
+            <input type="hidden" id="e-img-base64">
+            <button type="submit" class="w-full bg-white text-black font-bold py-3 rounded-lg hover:bg-white/90 mt-4">Add Event</button>
+          </form>
+          
+          <div class="mt-8 border-t border-white/10 pt-8">
+            <button onclick="clearData()" title="Clear Local Storage completely" class="w-full border border-red-500/50 text-red-400 font-bold py-3 rounded-lg hover:bg-red-500/10 transition-colors flex justify-center items-center gap-2">
+              <iconify-icon icon="lucide:trash-2"></iconify-icon> Reset Local Storage
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 2: DATA OVERVIEW -->
+      <div id="admin-view-overview" class="hidden flex-col h-full bg-white/5 border border-white/10 rounded-3xl p-6">
+        <div class="flex items-center gap-4 mb-6">
+          <button onclick="closeAdminOverview()" class="text-white/50 hover:text-white p-2"><iconify-icon icon="lucide:arrow-left" class="text-2xl"></iconify-icon></button>
+          <h3 class="text-2xl font-bold" id="overview-title">Overview</h3>
+        </div>
+        
+        <div class="flex-1 overflow-y-auto pr-2 custom-scrollbar">
+           <table class="w-full text-left border-collapse" id="admin-table">
+              <thead>
+                 <tr class="border-b border-white/10 text-white/50 text-sm uppercase tracking-wider">
+                    <th class="pb-3 pt-2 font-semibold">Image</th>
+                    <th class="pb-3 pt-2 font-semibold">Name/Title</th>
+                    <th class="pb-3 pt-2 font-semibold hidden md:table-cell">Details</th>
+                    <th class="pb-3 pt-2 font-semibold text-right">Actions</th>
+                 </tr>
+              </thead>
+              <tbody id="overview-tbody" class="text-sm md:text-base">
+                 <!-- Populated by JS -->
+              </tbody>
+           </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMAGE CROPPER MODAL (Top level of Admin) -->
+  <div id="cropper-modal" class="fixed inset-0 z-[250] bg-black/95 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+    <div class="bg-[#1A1A1B] border border-white/10 w-full max-w-3xl rounded-2xl flex flex-col h-[80vh] overflow-hidden">
+      <div class="flex justify-between items-center p-4 border-b border-white/10 bg-black/20 shrink-0">
+        <h4 class="font-bold text-lg text-white">Adjust Image</h4>
+        <button onclick="closeCropper()" class="text-white/50 hover:text-white"><iconify-icon icon="lucide:x" class="text-xl"></iconify-icon></button>
+      </div>
+      <div class="flex-1 min-h-0 bg-black/50 w-full relative p-4 flex items-center justify-center">
+        <!-- The user's image will be loaded here -->
+        <div class="w-full h-full">
+           <img id="cropper-image" src="" alt="To crop" class="max-w-full max-h-full hidden block">
+        </div>
+      </div>
+      <div class="p-4 border-t border-white/10 flex justify-end gap-4 bg-black/20 shrink-0">
+        <button onclick="closeCropper()" class="px-6 py-2 text-white/60 hover:text-white font-semibold">Cancel</button>
+        <button onclick="applyCrop()" class="px-6 py-2 bg-brand-coral text-white font-bold rounded-lg hover:bg-[#ff5511] flex items-center gap-2"><iconify-icon icon="lucide:crop"></iconify-icon> Submit Crop</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT DATA MODAL -->
+  <div id="edit-modal" class="fixed inset-0 z-[200] bg-black/80 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm">
+    <div class="bg-[#1A1A1B] border border-white/10 w-full max-w-lg rounded-2xl overflow-hidden shadow-2xl relative" id="edit-modal-content">
+       <!-- Form will be injected here via JS to adapt to Members or Events -->
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================================================
+       I. CORE APPLICATION LOGIC
+       ========================================================================== */
+    const isMobile = () => window.innerWidth < 768; // Tailwind 'md' matches 768px
+    let activeSection = 'welcome';
+
+    // Desktop vs Mobile Render Logic
+    function renderAppLayout() {
+      const sections = ['welcome', 'members', 'events', 'about'];
+
+      if (isMobile()) {
+        // SPA Mode for Mobile
+        sections.forEach(secId => {
+          const el = document.getElementById(secId);
+          if (el) {
+            if (secId === activeSection) {
+              el.style.display = 'flex';
+              setTimeout(() => { el.style.opacity = '1'; }, 50);
+            } else {
+              el.style.display = 'none';
+              el.style.opacity = '0';
+            }
+          }
+        });
+
+        // Update Nav Active State
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+        const activeNavBtn = document.getElementById('nav-' + activeSection);
+        if (activeNavBtn) activeNavBtn.classList.add('active');
+
+      } else {
+        // Continuous Scroll Mode for Desktop
+        sections.forEach((secId, i) => {
+          const el = document.getElementById(secId);
+          if (el) {
+            el.style.display = 'flex';
+            el.style.opacity = '1';
+            // slight styling if needed
+          }
+        });
+      }
+    }
+
+    function navigate(targetId) {
+      activeSection = targetId;
+      if (isMobile()) {
+        renderAppLayout();
+        window.scrollTo({ top: 0, behavior: 'auto' });
+      } else {
+        // Smooth scroll to section natively
+        const targetEl = document.getElementById(targetId);
+        if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    /* ==========================================================================
+       II. DATA MANAGEMENT (MOCK DATABASE)
+       ========================================================================== */
+    // Placeholder Images (Generated by user request)
+    const MOCK_M_IMG_1 = "file:///C:/Users/User/.gemini/antigravity/brain/5e02d2c0-6c96-4496-b1c7-60195230c403/member_1_1776784288057.png";
+    const MOCK_M_IMG_2 = "file:///C:/Users/User/.gemini/antigravity/brain/5e02d2c0-6c96-4496-b1c7-60195230c403/member_2_1776784304094.png";
+    const MOCK_E_IMG_1 = "file:///C:/Users/User/.gemini/antigravity/brain/5e02d2c0-6c96-4496-b1c7-60195230c403/event_1_1776784323116.png";
+
+    // Fallback unpkg placeholder if file paths don't resolve
+    const placeholderAv = "https://ui-avatars.com/api/?background=random&color=fff";
+
+    function initData() {
+      if (!localStorage.getItem('iedc_members')) {
+        const dummyMembers = [
+          // Level 1 (Nodal)
+          { id: 'm1', name: 'Dr. Arjun K', role: 'Nodal Officer', level: 1, img: MOCK_M_IMG_1 },
+          { id: 'm2', name: 'Prof. Anjali M', role: 'Asst. Nodal Officer', level: 1, img: MOCK_M_IMG_2 },
+          { id: 'm3', name: 'Dr. Hari S', role: 'Chief Advisor', level: 1, img: MOCK_M_IMG_1 },
+          // Level 2 (Executive)
+          { id: 'm4', name: 'Rahul V', role: 'CEO', level: 2, img: MOCK_M_IMG_1 },
+          { id: 'm5', name: 'Sneha R', role: 'COO', level: 2, img: MOCK_M_IMG_2 },
+          { id: 'm6', name: 'Rohan T', role: 'CFO', level: 2, img: MOCK_M_IMG_1 },
+          { id: 'm7', name: 'Meera K', role: 'CTO', level: 2, img: MOCK_M_IMG_2 },
+          // Level 3 (Core)
+          { id: 'm8', name: 'Kiran Deep', role: 'Creative Head', level: 3, img: MOCK_M_IMG_1 },
+          { id: 'm9', name: 'Nita Roy', role: 'PR Head', level: 3, img: MOCK_M_IMG_2 },
+          { id: 'm10', name: 'Dev P', role: 'Tech Lead', level: 3, img: MOCK_M_IMG_1 },
+          { id: 'm11', name: 'Varun C', role: 'Media Head', level: 3, img: MOCK_M_IMG_1 },
+          { id: 'm12', name: 'Maya L', role: 'Design Lead', level: 3, img: MOCK_M_IMG_2 },
+        ];
+        localStorage.setItem('iedc_members', JSON.stringify(dummyMembers));
+      }
+
+      if (!localStorage.getItem('iedc_events')) {
+        const dummyEvents = [
+          { id: 'e1', title: 'CyberQuest 2026', desc: 'A 48-hour intensive hackathon focusing on AI and Cyber Security solutions for modern web infrastructure.', images: [MOCK_E_IMG_1] },
+          { id: 'e2', title: 'Founder Pitch Day', desc: 'Top 10 student startups pitch their viable products to an external panel of investors and alumni.', images: [MOCK_E_IMG_1] }
+        ];
+        localStorage.setItem('iedc_events', JSON.stringify(dummyEvents));
+      } else {
+        // Schema Migration: Upgrade existing events `img` string to `images: []` array
+        const evts = JSON.parse(localStorage.getItem('iedc_events'));
+        let migrated = false;
+        const updatedEvts = evts.map(e => {
+          if (e.img !== undefined && !e.images) {
+            e.images = [e.img];
+            delete e.img;
+            migrated = true;
+          }
+          return e;
+        });
+        if (migrated) localStorage.setItem('iedc_events', JSON.stringify(updatedEvts));
+      }
+    }
+
+    /* ==========================================================================
+       III. RENDER UI COMPONENTS
+       ========================================================================== */
+    function imgError(image) { image.onerror = ""; image.src = "https://ui-avatars.com/api/?background=1A1A1B&color=ff6b35&name=Member"; return true; }
+
+    function getMemberCardStr(m, levelClasses) {
+      return `
+        <div class="flex flex-col items-center group cursor-pointer">
+          <div class="relative w-full aspect-square overflow-hidden rounded-full bg-white/5 border-2 md:border-4 border-white/10 group-hover:border-brand-coral transition-all duration-500 shadow-none group-hover:shadow-[0_0_30px_rgba(255,107,53,0.4)] mb-4 md:mb-5">
+             <img src="${m.img}" onerror="imgError(this)" class="w-full h-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" alt="${m.name}" />
+             <!-- Themed inner ring effect -->
+             <div class="absolute inset-0 rounded-full shadow-[inset_0_0_20px_rgba(255,107,53,0)] group-hover:shadow-[inset_0_0_20px_rgba(255,107,53,0.4)] transition-shadow duration-500 pointer-events-none"></div>
+          </div>
+          <div class="text-center w-full px-1">
+             <h4 class="font-bold text-white text-sm md:text-xl mb-0.5 block truncate transition-colors group-hover:text-white drop-shadow-md">${m.name}</h4>
+             <p class="text-brand-coral text-[10px] md:text-xs font-bold uppercase tracking-wider block truncate">${m.role}</p>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderMembers() {
+      const members = JSON.parse(localStorage.getItem('iedc_members')) || [];
+      const levels = {
+        1: members.filter(m => parseInt(m.level) === 1),
+        2: members.filter(m => parseInt(m.level) === 2),
+        3: members.filter(m => parseInt(m.level) === 3)
+      };
+
+      let html = '';
+      if (levels[1].length > 0) {
+        html += `<div class="mb-16">
+            <div class="flex items-center gap-4 mb-8">
+               <div class="w-8 h-[1px] bg-white/20"></div>
+               <h3 class="text-white/60 text-xs font-bold tracking-[0.3em] uppercase">Level 1 // Nodal</h3>
+               <div class="flex-1 h-[1px] bg-white/10"></div>
+            </div>
+            <div class="grid grid-cols-3 gap-3 md:gap-8">` + levels[1].map(m => getMemberCardStr(m)).join('') + `</div></div>`;
+      }
+
+      if (levels[2].length > 0) {
+        html += `<div class="mb-16">
+            <div class="flex items-center gap-4 mb-8">
+               <div class="w-8 h-[1px] bg-white/20"></div>
+               <h3 class="text-white/60 text-xs font-bold tracking-[0.3em] uppercase">Level 2 // Executive</h3>
+               <div class="flex-1 h-[1px] bg-white/10"></div>
+            </div>
+            <div class="grid grid-cols-4 gap-2 md:gap-6">` + levels[2].map(m => getMemberCardStr(m)).join('') + `</div></div>`;
+      }
+
+      if (levels[3].length > 0) {
+        html += `<div class="mb-12">
+            <div class="flex items-center gap-4 mb-8">
+               <div class="w-8 h-[1px] bg-white/20"></div>
+               <h3 class="text-white/60 text-xs font-bold tracking-[0.3em] uppercase">Level 3 // Core</h3>
+               <div class="flex-1 h-[1px] bg-white/10"></div>
+            </div>
+            <div class="grid grid-cols-5 gap-2 md:gap-4">` + levels[3].map(m => getMemberCardStr(m)).join('') + `</div></div>`;
+      }
+      document.getElementById('members-grid').innerHTML = html;
+    }
+
+    function toggleEvent(id) {
+      const el = document.getElementById('evt-' + id);
+      if (el.classList.contains('expanded')) {
+        el.classList.remove('expanded');
+      } else {
+        // close others
+        document.querySelectorAll('.event-card').forEach(c => c.classList.remove('expanded'));
+        el.classList.add('expanded');
+      }
+    }
+
+    function renderEvents() {
+      const events = JSON.parse(localStorage.getItem('iedc_events')) || [];
+      const html = events.map(e => {
+        const coverImg = (e.images && e.images.length > 0) ? e.images[0] : '';
+        const extraImagesHtml = (e.images && e.images.length > 1) ? 
+          `<div class="mt-6"><h4 class="text-sm font-bold text-white/50 uppercase tracking-widest mb-3">Event Gallery</h4>
+           <div class="flex gap-4 overflow-x-auto pb-4 custom-scrollbar">
+             ${e.images.slice(1).map(img => `<img src="${img}" class="h-24 w-auto rounded-lg border border-white/10 hover:border-brand-coral transition-colors">`).join('')}
+           </div></div>` : '';
+
+        return `
+        <div id="evt-${e.id}" class="event-card bg-white/5 border border-white/10 rounded-3xl overflow-hidden cursor-pointer hover:border-white/30" onclick="toggleEvent('${e.id}')">
+          <div class="h-48 md:h-64 w-full relative overflow-hidden">
+             <img src="${coverImg}" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" alt="Event" />
+             <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+             <div class="absolute bottom-6 left-6 right-6">
+                <span class="px-3 py-1 bg-brand-coral/20 text-brand-coral backdrop-blur-md rounded-full text-[10px] font-bold uppercase tracking-wider mb-3 inline-block border border-brand-coral/50">Tech Program</span>
+                <h3 class="text-xl md:text-3xl font-bold text-white">${e.title}</h3>
+             </div>
+          </div>
+          <div class="event-details px-6 md:px-8 pb-6 md:pb-8">
+            <p class="text-white/60 leading-relaxed">${e.desc}</p>
+            ${extraImagesHtml}
+            <button class="mt-6 px-6 py-2 bg-white text-black font-bold text-sm rounded-full w-full sm:w-auto hover:bg-white/80 transition-colors" onclick="event.stopPropagation()">Register Now</button>
+          </div>
+        </div>
+        `
+      }).join('');
+      document.getElementById('events-grid').innerHTML = html;
+    }
+
+    /* ==========================================================================
+       IV. ADMIN LOGIC & DATA MANAGEMENT OVERVIEW
+       ========================================================================== */
+    function openAdmin() {
+      document.getElementById('login-modal').classList.remove('hidden');
+      setTimeout(() => document.getElementById('login-modal').style.opacity = '1', 10);
+    }
+    function closeAdmin() {
+      document.getElementById('login-modal').style.opacity = '0';
+      setTimeout(() => document.getElementById('login-modal').classList.add('hidden'), 300);
+      document.getElementById('login-error').classList.add('hidden');
+    }
+    function handleLogin(e) {
+      e.preventDefault();
+      const u = document.getElementById('login-user').value;
+      const p = document.getElementById('login-pass').value;
+      if (u === 'shameem' && p === 'shameem123#') {
+        openAdminPanel();
+      } else {
+        document.getElementById('login-error').classList.remove('hidden');
+      }
+    }
+
+    function openAdminPanel() {
+      closeAdmin();
+      document.getElementById('admin-panel').classList.remove('hidden');
+      setTimeout(() => document.getElementById('admin-panel').style.opacity = '1', 10);
+      // Init file listeners
+      initFileListeners();
+    }
+    function closeAdminPanel() {
+      document.getElementById('admin-panel').style.opacity = '0';
+      setTimeout(() => document.getElementById('admin-panel').classList.add('hidden'), 300);
+      const fl = document.getElementById('form-login');
+      if(fl) fl.reset();
+      closeAdminOverview();
+    }
+
+    /* --------------------------------------------------------------------------
+       IVa. CROPPER LOGIC
+       -------------------------------------------------------------------------- */
+    let cropper = null;
+    let currentCropperTargetInput = null; 
+
+    function initFileListeners() {
+      const attachFileListener = (inputId, targetBase64Id, cropRatio) => {
+        const fileInput = document.getElementById(inputId);
+        if(!fileInput) return;
+        // remove old to prevent buildup
+        const klone = fileInput.cloneNode(true);
+        fileInput.parentNode.replaceChild(klone, fileInput);
+        
+        klone.addEventListener('change', (e) => {
+          if (e.target.files && e.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+              openCropper(ev.target.result, targetBase64Id, cropRatio);
+            };
+            reader.readAsDataURL(e.target.files[0]);
+          }
+        });
+      };
+      
+      // Members ratio 1:1, Events Ratio 16:9
+      attachFileListener('m-img-file', 'm-img-base64', 1);
+      attachFileListener('e-img-file', 'e-img-base64', 16/9);
+    }
+
+    function openCropper(imgSrc, targetInputId, cropRatio) {
+      currentCropperTargetInput = document.getElementById(targetInputId);
+      const modal = document.getElementById('cropper-modal');
+      const imgEle = document.getElementById('cropper-image');
+      imgEle.src = imgSrc;
+      imgEle.classList.remove('hidden');
+      
+      modal.classList.remove('hidden');
+      setTimeout(() => modal.style.opacity = '1', 10);
+      
+      if (cropper) cropper.destroy();
+      cropper = new Cropper(imgEle, {
+        aspectRatio: cropRatio,
+        viewMode: 2,
+        background: false,
+        autoCropArea: 0.9
+      });
+    }
+
+    function closeCropper() {
+      const modal = document.getElementById('cropper-modal');
+      modal.style.opacity = '0';
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        if (cropper) cropper.destroy();
+        document.getElementById('cropper-image').src = "";
+      }, 300);
+    }
+
+    function applyCrop() {
+      if (!cropper) return;
+      // Get WebP optimized canvas result to save space
+      const canvas = cropper.getCroppedCanvas({
+        maxWidth: 800,
+        maxHeight: 800,
+        fillColor: '#000'
+      });
+      const b64 = canvas.toDataURL('image/webp', 0.8);
+      
+      if(currentCropperTargetInput) {
+        currentCropperTargetInput.value = b64;
+        
+        // Show preview if it exists
+        const baseId = currentCropperTargetInput.id.replace('-base64', '');
+        const previewContainer = document.getElementById(baseId + '-preview-container');
+        const previewImg = document.getElementById(baseId + '-preview');
+        if (previewContainer && previewImg) {
+           previewImg.src = b64;
+           previewContainer.classList.remove('hidden');
+        }
+      }
+      closeCropper();
+    }
+
+    /* --------------------------------------------------------------------------
+       IVb. ADMIN OVERVIEW LOGIC
+       -------------------------------------------------------------------------- */
+    let currentAdminMode = 'entry'; // 'entry' or 'overview'
+    let currentOverviewType = ''; // 'members' or 'events'
+
+    function openAdminOverview(type) {
+      currentOverviewType = type;
+      currentAdminMode = 'overview';
+      document.getElementById('admin-view-entry').classList.add('hidden');
+      document.getElementById('admin-view-overview').classList.remove('hidden');
+      document.getElementById('admin-view-overview').style.display = 'flex';
+      
+      document.getElementById('overview-title').innerText = type === 'members' ? 'Members Overview' : 'Events Overview';
+      renderAdminTables();
+    }
+
+    function closeAdminOverview() {
+      currentAdminMode = 'entry';
+      document.getElementById('admin-view-overview').classList.add('hidden');
+      document.getElementById('admin-view-overview').style.display = 'none';
+      document.getElementById('admin-view-entry').classList.remove('hidden');
+    }
+
+    function renderAdminTables() {
+      const tbody = document.getElementById('overview-tbody');
+      tbody.innerHTML = '';
+      
+      if (currentOverviewType === 'members') {
+        const items = JSON.parse(localStorage.getItem('iedc_members')) || [];
+        items.forEach(m => {
+          const tr = document.createElement('tr');
+          tr.className = "border-b border-white/5 hover:bg-white/5 transition-colors";
+          tr.innerHTML = `
+            <td class="py-4"><img src="${m.img}" onerror="imgError(this)" class="w-10 h-10 rounded-full object-cover border border-white/10" /></td>
+            <td class="py-4 font-bold text-white">${m.name}</td>
+            <td class="py-4 text-white/50 hidden md:table-cell">${m.role} (Level ${m.level})</td>
+            <td class="py-4 text-right space-x-2">
+               <button onclick="editItem('${m.id}')" class="px-3 py-1.5 bg-white/10 rounded-lg hover:bg-white hover:text-black transition-colors font-semibold text-xs">Edit</button>
+               <button onclick="deleteItem('${m.id}')" class="px-3 py-1.5 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500 hover:text-white transition-colors font-semibold text-xs">Delete</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } else {
+        const items = JSON.parse(localStorage.getItem('iedc_events')) || [];
+        items.forEach(e => {
+          const tr = document.createElement('tr');
+          tr.className = "border-b border-white/5 hover:bg-white/5 transition-colors";
+          const cover = (e.images && e.images.length > 0) ? e.images[0] : '';
+          tr.innerHTML = `
+            <td class="py-4"><img src="${cover}" class="w-16 h-10 rounded-lg object-cover border border-white/10" /></td>
+            <td class="py-4 font-bold text-white">${e.title}</td>
+            <td class="py-4 text-white/50 hidden md:table-cell truncate max-w-[200px]">${e.desc}</td>
+            <td class="py-4 text-right space-x-2">
+               <button onclick="editItem('${e.id}')" class="px-3 py-1.5 bg-white/10 rounded-lg hover:bg-white hover:text-black transition-colors font-semibold text-xs">Edit</button>
+               <button onclick="deleteItem('${e.id}')" class="px-3 py-1.5 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500 hover:text-white transition-colors font-semibold text-xs">Delete</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+    }
+
+    /* --------------------------------------------------------------------------
+       IVc. ADDING DATA
+       -------------------------------------------------------------------------- */
+    function handleAddMemberSubmit(e) {
+      e.preventDefault();
+      const b64 = document.getElementById('m-img-base64').value;
+      if(!b64) { alert("Please select an image and apply crop first."); return; }
+      
+      const members = JSON.parse(localStorage.getItem('iedc_members')) || [];
+      const newM = {
+        id: 'm' + Date.now(),
+        name: document.getElementById('m-name').value,
+        role: document.getElementById('m-role').value,
+        level: parseInt(document.getElementById('m-level').value),
+        img: b64
+      };
+      members.push(newM);
+      localStorage.setItem('iedc_members', JSON.stringify(members));
+      document.getElementById('form-member').reset();
+      document.getElementById('m-img-base64').value = '';
+      renderMembers();
+      alert("Member added successfully!");
+    }
+
+    function handleAddEventSubmit(e) {
+      e.preventDefault();
+      const b64 = document.getElementById('e-img-base64').value;
+      if(!b64) { alert("Please select an image and apply crop first."); return; }
+      
+      const events = JSON.parse(localStorage.getItem('iedc_events')) || [];
+      const newE = {
+        id: 'e' + Date.now(),
+        title: document.getElementById('e-title').value,
+        desc: document.getElementById('e-desc').value,
+        images: [b64]
+      };
+      events.push(newE);
+      localStorage.setItem('iedc_events', JSON.stringify(events));
+      document.getElementById('form-event').reset();
+      document.getElementById('e-img-base64').value = '';
+      renderEvents();
+      alert("Event added successfully!");
+    }
+
+    /* --------------------------------------------------------------------------
+       IVd. EDITING & DELETING DATA
+       -------------------------------------------------------------------------- */
+    function deleteItem(id) {
+      if(!confirm("Are you sure you want to delete this item?")) return;
+      if (currentOverviewType === 'members') {
+        let members = JSON.parse(localStorage.getItem('iedc_members')) || [];
+        members = members.filter(m => m.id !== id);
+        localStorage.setItem('iedc_members', JSON.stringify(members));
+        renderMembers();
+      } else {
+        let events = JSON.parse(localStorage.getItem('iedc_events')) || [];
+        events = events.filter(e => e.id !== id);
+        localStorage.setItem('iedc_events', JSON.stringify(events));
+        renderEvents();
+      }
+      renderAdminTables();
+    }
+
+    let currentEditId = null;
+
+    function editItem(id) {
+      currentEditId = id;
+      const modal = document.getElementById('edit-modal');
+      const content = document.getElementById('edit-modal-content');
+      
+      if (currentOverviewType === 'members') {
+         const m = (JSON.parse(localStorage.getItem('iedc_members'))||[]).find(x => x.id === id);
+         content.innerHTML = `
+           <div class="flex justify-between items-center p-6 border-b border-white/10">
+             <h4 class="font-bold text-xl text-white">Edit Member</h4>
+             <button onclick="closeEditModal()" class="text-white/50 hover:text-white"><iconify-icon icon="lucide:x" class="text-xl"></iconify-icon></button>
+           </div>
+           <form onsubmit="saveEditMember(event)" class="p-6 space-y-4">
+             <div><label class="text-xs uppercase text-white/50 mb-1 block">Full Name</label>
+             <input type="text" id="edit-m-name" value="${m.name}" required class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-brand-coral"></div>
+             
+             <div><label class="text-xs uppercase text-white/50 mb-1 block">Role</label>
+             <input type="text" id="edit-m-role" value="${m.role}" required class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-brand-coral"></div>
+             
+             <div><label class="text-xs uppercase text-white/50 mb-1 block">Level</label>
+             <select id="edit-m-level" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-brand-coral appearance-none">
+               <option value="1" ${m.level===1?'selected':''}>Level 1 (Highest)</option>
+               <option value="2" ${m.level===2?'selected':''}>Level 2</option>
+               <option value="3" ${m.level===3?'selected':''}>Level 3</option>
+             </select></div>
+             
+             <div><label class="text-xs uppercase text-white/50 mb-1 block">Replace Image (Optional)</label>
+             <input type="file" id="edit-m-img-file" accept="image/*" class="block w-full text-sm text-white/50 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/10 file:text-white hover:file:bg-brand-coral hover:file:text-white cursor-pointer transition-colors">
+             <div id="edit-m-img-preview-container" class="mt-3 hidden"><img id="edit-m-img-preview" src="" class="w-16 h-16 rounded-full object-cover border border-brand-coral"></div>
+             <input type="hidden" id="edit-m-img-base64"></div>
+             
+             <button type="submit" class="w-full bg-brand-coral text-white font-bold py-3 rounded-lg hover:bg-[#ff5511] mt-6 shadow-[0_0_20px_rgba(255,107,53,0.3)] transition-all">Save Changes</button>
+           </form>
+         `;
+         setTimeout(() => {
+           const fileInput = document.getElementById('edit-m-img-file');
+           fileInput.addEventListener('change', (e) => {
+             if (e.target.files && e.target.files[0]) {
+               const reader = new FileReader();
+               reader.onload = (ev) => {
+                  currentCropperTargetInput = document.getElementById('edit-m-img-base64');
+                  // we'll hook the preview into applyCrop later or just do it here
+                  openCropper(ev.target.result, 'edit-m-img-base64', 1);
+               };
+               reader.readAsDataURL(e.target.files[0]);
+             }
+           });
+         }, 100);
+      } else {
+         const ev = (JSON.parse(localStorage.getItem('iedc_events'))||[]).find(x => x.id === id);
+         content.innerHTML = `
+           <div class="flex justify-between items-center p-6 border-b border-white/10">
+             <h4 class="font-bold text-xl text-white">Edit Event</h4>
+             <button type="button" onclick="closeEditModal()" class="text-white/50 hover:text-white"><iconify-icon icon="lucide:x" class="text-xl"></iconify-icon></button>
+           </div>
+           <form onsubmit="saveEditEvent(event)" class="p-6 space-y-4 max-h-[70vh] overflow-y-auto custom-scrollbar">
+             <div><label class="text-xs uppercase text-white/50 mb-1 block">Title</label>
+             <input type="text" id="edit-e-title" value="${ev.title}" required class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-brand-coral"></div>
+             
+             <div><label class="text-xs uppercase text-white/50 mb-1 block">Description</label>
+             <textarea id="edit-e-desc" rows="4" required class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-brand-coral">${ev.desc}</textarea></div>
+             
+             <div class="border-t border-white/10 pt-4 mt-4">
+                <label class="text-xs uppercase text-white/50 mb-1 block">Replace Cover Image (Optional)</label>
+                <input type="file" id="edit-e-img-file" accept="image/*" class="block w-full text-sm text-white/50 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/10 file:text-white hover:file:bg-brand-coral hover:file:text-white cursor-pointer transition-colors">
+                <div id="edit-e-img-preview-container" class="mt-3 hidden"><img id="edit-e-img-preview" src="" class="h-16 w-24 rounded-lg object-cover border border-brand-coral"></div>
+                <input type="hidden" id="edit-e-img-base64">
+             </div>
+
+             <div class="border-t border-white/10 pt-4 mt-4">
+                <label class="text-xs uppercase text-white/50 mb-1 block">Add to Gallery (Optional)</label>
+                <input type="file" id="edit-e-gallery-file" accept="image/*" class="block w-full text-sm text-white/50 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/10 file:text-white hover:file:bg-brand-coral hover:file:text-white cursor-pointer transition-colors">
+                <div id="edit-e-gallery-preview-container" class="mt-3 hidden"><img id="edit-e-gallery-preview" src="" class="h-16 w-24 rounded-lg object-cover border border-brand-coral"></div>
+                <input type="hidden" id="edit-e-gallery-base64">
+             </div>
+             
+             <button type="submit" class="w-full bg-brand-coral text-white font-bold py-3 rounded-lg hover:bg-[#ff5511] mt-6 shadow-[0_0_20px_rgba(255,107,53,0.3)] transition-all">Save Changes</button>
+           </form>
+         `;
+         setTimeout(() => {
+           const coverInput = document.getElementById('edit-e-img-file');
+           coverInput.addEventListener('change', (e) => {
+             if (e.target.files && e.target.files[0]) {
+               const reader = new FileReader();
+               reader.onload = (evn) => openCropper(evn.target.result, 'edit-e-img-base64', 16/9);
+               reader.readAsDataURL(e.target.files[0]);
+             }
+           });
+           const galleryInput = document.getElementById('edit-e-gallery-file');
+           galleryInput.addEventListener('change', (e) => {
+             if (e.target.files && e.target.files[0]) {
+               const reader = new FileReader();
+               reader.onload = (evn) => openCropper(evn.target.result, 'edit-e-gallery-base64', NaN); // Free crop for gallery
+               reader.readAsDataURL(e.target.files[0]);
+             }
+           });
+         }, 100);
+      }
+      
+      modal.classList.remove('hidden');
+      setTimeout(() => modal.style.opacity = '1', 10);
+    }
+
+    function closeEditModal() {
+      const modal = document.getElementById('edit-modal');
+      modal.style.opacity = '0';
+      setTimeout(() => modal.classList.add('hidden'), 300);
+    }
+
+    function saveEditMember(e) {
+      e.preventDefault();
+      let members = JSON.parse(localStorage.getItem('iedc_members')) || [];
+      let idx = members.findIndex(m => m.id === currentEditId);
+      if(idx > -1) {
+        members[idx].name = document.getElementById('edit-m-name').value;
+        members[idx].role = document.getElementById('edit-m-role').value;
+        members[idx].level = parseInt(document.getElementById('edit-m-level').value);
+        const b64 = document.getElementById('edit-m-img-base64').value;
+        if(b64) members[idx].img = b64;
+        localStorage.setItem('iedc_members', JSON.stringify(members));
+        renderMembers();
+        renderAdminTables();
+      }
+      closeEditModal();
+    }
+
+    function saveEditEvent(e) {
+      e.preventDefault();
+      let events = JSON.parse(localStorage.getItem('iedc_events')) || [];
+      let idx = events.findIndex(ev => ev.id === currentEditId);
+      if(idx > -1) {
+        events[idx].title = document.getElementById('edit-e-title').value;
+        events[idx].desc = document.getElementById('edit-e-desc').value;
+        const b64Cover = document.getElementById('edit-e-img-base64').value;
+        const b64Gallery = document.getElementById('edit-e-gallery-base64').value;
+        
+        if(b64Cover) {
+           if(!events[idx].images) events[idx].images = [];
+           // Replace first item (cover)
+           if(events[idx].images.length > 0) events[idx].images[0] = b64Cover;
+           else events[idx].images.push(b64Cover);
+        }
+        if(b64Gallery) {
+           if(!events[idx].images) events[idx].images = [];
+           events[idx].images.push(b64Gallery);
+        }
+        localStorage.setItem('iedc_events', JSON.stringify(events));
+        renderEvents();
+        renderAdminTables();
+      }
+      closeEditModal();
+    }
+
+    function clearData() {
+      if (confirm("Are you sure? This deletes local overrides and restores defaults on reload.")) {
+        localStorage.removeItem('iedc_members');
+        localStorage.removeItem('iedc_events');
+        initData();
+        renderMembers();
+        renderEvents();
+        if(currentAdminMode === 'overview') renderAdminTables();
+        alert("Reset complete.");
+      }
+    }
+
+    /* ==========================================================================
+       V. CANVAS BACKGROUND INITIALIZATION (DARK THEME)
+       ========================================================================== */
+    function initCanvas() {
+      const canvas = document.getElementById('squares-bg');
+      const ctx = canvas.getContext('2d');
+      const config = {
+        direction: 'diagonal', speed: 0.2, squareSize: 55,
+        borderColor: 'rgba(255, 255, 255, 0.03)',
+        hoverFillColor: 'rgba(255, 107, 53, 0.1)'
+      };
+      let requestRef = null; let numSquaresX = 0; let numSquaresY = 0;
+      let gridOffset = { x: 0, y: 0 }; let hoveredSquare = null;
+
+      function resizeCanvas() {
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr; canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        canvas.style.width = `${rect.width}px`; canvas.style.height = `${rect.height}px`;
+        numSquaresX = Math.ceil(rect.width / config.squareSize) + 1;
+        numSquaresY = Math.ceil(rect.height / config.squareSize) + 1;
+      }
+
+      function drawGrid() {
+        const rect = canvas.getBoundingClientRect();
+        ctx.clearRect(0, 0, rect.width, rect.height);
+        const startX = Math.floor(gridOffset.x / config.squareSize) * config.squareSize;
+        const startY = Math.floor(gridOffset.y / config.squareSize) * config.squareSize;
+
+        ctx.lineWidth = 1;
+        for (let x = startX; x < rect.width + config.squareSize; x += config.squareSize) {
+          for (let y = startY; y < rect.height + config.squareSize; y += config.squareSize) {
+            const squareX = x - (gridOffset.x % config.squareSize);
+            const squareY = y - (gridOffset.y % config.squareSize);
+            const gridX = Math.floor((x - startX) / config.squareSize);
+            const gridY = Math.floor((y - startY) / config.squareSize);
+
+            if (hoveredSquare && gridX === hoveredSquare.x && gridY === hoveredSquare.y) {
+              ctx.fillStyle = config.hoverFillColor; ctx.fillRect(squareX, squareY, config.squareSize, config.squareSize);
+            }
+            ctx.strokeStyle = config.borderColor; ctx.strokeRect(squareX, squareY, config.squareSize, config.squareSize);
+          }
+        }
+
+        // Dark Vignette
+        const cx = rect.width / 2; const cy = rect.height / 2;
+        const radius = Math.sqrt(Math.pow(rect.width, 2) + Math.pow(rect.height, 2)) / 2;
+        const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+        gradient.addColorStop(0, 'rgba(5, 5, 5, 0)');
+        gradient.addColorStop(0.6, 'rgba(5, 5, 5, 0.5)');
+        gradient.addColorStop(1, 'rgba(5, 5, 5, 0.95)');
+        ctx.fillStyle = gradient; ctx.fillRect(0, 0, rect.width, rect.height);
+      }
+
+      function updateAnimation() {
+        const effSpeed = config.speed;
+        gridOffset.x = (gridOffset.x - effSpeed + config.squareSize) % config.squareSize;
+        gridOffset.y = (gridOffset.y - effSpeed + config.squareSize) % config.squareSize;
+        drawGrid(); requestRef = requestAnimationFrame(updateAnimation);
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+      document.body.addEventListener('mousemove', e => {
+        const rect = canvas.getBoundingClientRect();
+        const mX = e.clientX - rect.left; const mY = e.clientY - rect.top;
+        hoveredSquare = {
+          x: Math.floor((mX + (gridOffset.x % config.squareSize)) / config.squareSize),
+          y: Math.floor((mY + (gridOffset.y % config.squareSize)) / config.squareSize)
+        };
+      });
+      document.body.addEventListener('mouseleave', () => hoveredSquare = null);
+      resizeCanvas(); updateAnimation();
+    }
+
+    /* ==========================================================================
+       VI. STAGGERED MENU CONTROLLER
+       ========================================================================== */
+    class StaggeredMenuController {
+       constructor() {
+          this.isOpen = false;
+          this.isBusy = false;
+          this.btn = document.getElementById('sm-toggle-btn');
+          this.textInner = document.getElementById('sm-text-inner');
+          this.icon = document.getElementById('sm-icon');
+          this.plusH = document.getElementById('sm-plus-h');
+          this.plusV = document.getElementById('sm-plus-v');
+          this.scope = document.getElementById('staggered-menu-scope');
+          this.panel = document.getElementById('sm-main-panel');
+          this.preLayers = Array.from(document.querySelectorAll('.sm-prelayer'));
+          this.itemLabels = Array.from(document.querySelectorAll('.sm-panel-itemLabel'));
+          this.socialTitle = document.querySelector('.sm-socials-title');
+          this.socialLinks = Array.from(document.querySelectorAll('.sm-socials-link'));
+
+          if (!this.btn) return;
+
+          // Initial GSAP setup
+          gsap.set([this.panel, ...this.preLayers], { xPercent: 100 });
+          gsap.set(this.plusH, { transformOrigin: '50% 50%', rotate: 0 });
+          gsap.set(this.plusV, { transformOrigin: '50% 50%', rotate: 90 });
+          gsap.set(this.icon, { rotate: 0, transformOrigin: '50% 50%' });
+          gsap.set(this.textInner, { yPercent: 0 });
+
+          this.btn.addEventListener('click', () => this.toggle());
+       }
+
+       toggle() {
+          if (this.isBusy) return;
+          this.isOpen = !this.isOpen;
+          
+          this.animateIcon(this.isOpen);
+          this.animateText(this.isOpen);
+
+          if (this.isOpen) {
+             this.playOpen();
+          } else {
+             this.playClose();
+          }
+       }
+
+       playOpen() {
+          this.isBusy = true;
+          this.scope.style.display = 'block';
+
+          // reset items
+          if (this.itemLabels.length) gsap.set(this.itemLabels, { yPercent: 140, rotate: 10 });
+          if (this.socialTitle) gsap.set(this.socialTitle, { opacity: 0 });
+          if (this.socialLinks.length) gsap.set(this.socialLinks, { y: 25, opacity: 0 });
+
+          const tl = gsap.timeline({
+             onComplete: () => { this.isBusy = false; }
+          });
+
+          this.preLayers.forEach((el, i) => {
+             tl.fromTo(el, { xPercent: 100 }, { xPercent: 0, duration: 0.5, ease: 'power4.out' }, i * 0.07);
+          });
+
+          const lastTime = this.preLayers.length ? (this.preLayers.length - 1) * 0.07 : 0;
+          const panelInsert = lastTime + 0.08;
+          const pduration = 0.65;
+
+          tl.fromTo(this.panel, { xPercent: 100 }, { xPercent: 0, duration: pduration, ease: 'power4.out' }, panelInsert);
+
+          if (this.itemLabels.length) {
+              tl.to(this.itemLabels, { yPercent: 0, rotate: 0, duration: 1, ease: 'power4.out', stagger: 0.1 }, panelInsert + pduration * 0.15);
+          }
+          
+          const socialsStart = panelInsert + pduration * 0.4;
+          if (this.socialTitle) tl.to(this.socialTitle, { opacity: 1, duration: 0.5, ease: 'power2.out' }, socialsStart);
+          if (this.socialLinks.length) tl.to(this.socialLinks, { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out', stagger: 0.08 }, socialsStart + 0.04);
+       }
+
+       playClose() {
+          this.isBusy = true;
+          const all = [...this.preLayers, this.panel];
+          gsap.to(all, {
+             xPercent: 100,
+             duration: 0.35,
+             ease: 'power3.in',
+             stagger: { each: 0.05, from: 'end' },
+             onComplete: () => {
+                this.scope.style.display = 'none';
+                this.isBusy = false;
+             }
+          });
+       }
+
+       animateIcon(opening) {
+          if (opening) {
+             gsap.timeline({ defaults: { ease: 'power4.out' } })
+                .to(this.plusH, { rotate: 45, duration: 0.5 }, 0)
+                .to(this.plusV, { rotate: -45, duration: 0.5 }, 0);
+          } else {
+             gsap.timeline({ defaults: { ease: 'power3.inOut' } })
+                .to(this.plusH, { rotate: 0, duration: 0.35 }, 0)
+                .to(this.plusV, { rotate: 90, duration: 0.35 }, 0);
+          }
+       }
+
+       animateText(opening) {
+          const finalShift = (2 / 3) * 100;
+          gsap.set(this.textInner, { yPercent: 0 });
+          if (opening) {
+             gsap.to(this.textInner, { yPercent: -finalShift, duration: 0.5, ease: 'power4.out' });
+          } else {
+             gsap.to(this.textInner, { yPercent: 0, duration: 0.5, ease: 'power4.out' });
+          }
+       }
+       
+       closeForNavigation() {
+          if(this.isOpen) {
+             this.toggle();
+          }
+       }
+    }
+
+    let smController;
+
+    function clickSmItem(section) {
+       navigate(section);
+       if(smController) smController.closeForNavigation();
+    }
+
+    /* ==========================================================================
+       VII. BOOT
+       ========================================================================== */
+    window.addEventListener('resize', renderAppLayout);
+    document.addEventListener('DOMContentLoaded', () => {
+      smController = new StaggeredMenuController();
+      initData();
+      renderMembers();
+      renderEvents();
+      renderAppLayout();
+      initCanvas();
+    });
+  </script>
+</body>
+
+</html>
