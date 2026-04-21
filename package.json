@@ -13,5 +13,8 @@
   "license": "ISC",
   "devDependencies": {
     "vite": "^8.0.9"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
   }
 }
